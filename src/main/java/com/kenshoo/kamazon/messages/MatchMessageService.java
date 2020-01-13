@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class MatchMessageService {
 
     private Logger logger = LoggerFactory.getLogger(MatchMessageService.class);
-    public static String URL = "https://hooks.slack.com/services/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";
+    public static String URL = "https://hooks.slack.com/services/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";
 
     public void sendMessage(List<Order> orders) throws IOException {
         Message message = new Message();
