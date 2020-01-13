@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,8 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
-    public String updateEvent(@RequestBody OrderRequest request){
-        return request.toString();
+    public String updateEvent(HttpServletRequest request) throws IOException {
+        return request.getParameter("user_name") + request.getParameter("text");
     }
 
 }
