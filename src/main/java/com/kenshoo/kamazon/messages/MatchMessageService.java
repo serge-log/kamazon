@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class MatchMessageService {
 
-    public static String URL = "https://hooks.slack.com/services/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";
+    public static String URL = "https://hooks.slack.com/services/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";
 
     public void sendMessage(List<Order> orders) throws IOException {
         Message message = new Message();
