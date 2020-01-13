@@ -1,7 +1,5 @@
 package com.kenshoo.kamazon.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 
 public class Order {
@@ -18,7 +16,7 @@ public class Order {
     @Column(name = "group_id")
     public String groupId;
     @Column(name = "is_admin")
-    public Boolean admin;
+    public boolean isAdmin;
 
     public Order() {
     }
@@ -30,7 +28,7 @@ public class Order {
         this.url = url;
         this.slackId = slackId;
         this.groupId = groupId;
-        this.admin = admin;
+        this.isAdmin = admin;
     }
 
     public int getId() {
@@ -49,13 +47,12 @@ public class Order {
         this.groupId = groupId;
     }
 
-    @JsonIgnore
     public boolean getAdmin() {
-        return admin;
+        return isAdmin;
     }
 
     public void setAdmin(boolean admin) {
-        this.admin = admin;
+        this.isAdmin = admin;
     }
 
     @Override
