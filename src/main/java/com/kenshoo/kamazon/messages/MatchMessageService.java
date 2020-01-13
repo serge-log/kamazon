@@ -1,8 +1,8 @@
 package com.kenshoo.kamazon.messages;
 
 import com.google.gson.Gson;
+import com.kenshoo.kamazon.HashUtils;
 import com.kenshoo.kamazon.order.Order;
-import com.kenshoo.kamazon.order.OrderService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
-import java.io.IOException;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,16 +28,19 @@ import java.util.stream.Collectors;
 public class MatchMessageService {
 
     private Logger logger = LoggerFactory.getLogger(MatchMessageService.class);
-    public static String URL = "https://hooks.slack.com/services/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";
+    public static String URL = "MBLk1ofwp/7MADHJevPDNCEwk84N9zSl4bbbee7nq8JuDRs9LC8Qf5h9EW3TYf5KJ45nF/vg6POw0EqXZ1w+ksxGUxCDdc4BTzroOZvtleo=";
 
-    public void sendMessage(List<Order> orders) throws IOException {
+    @Resource
+    private HashUtils hashUtils;
+
+    public void sendMessage(List<Order> orders, Order adminOrder) throws Exception {
         Message message = new Message();
-        String orderText = orders.stream().map(order -> String.format("<@%s> %s %s", order.userName, order.url, order.price)).collect(Collectors.joining("\n"));
-        String mainText = String.format("Congratulation!!! :amazon: \n We have a match :package: :package: :package:   \n %s", orderText);
+        String orderText = orders.stream().map(order -> String.format("order username: <@%s> product: %s", order.userName, order.url)).collect(Collectors.joining("\n"));
+        String mainText = String.format("Congratulation!!! :amazon: \n We have a match :package: :package: :package:   \n admin of order is: <@%s>\n your shipping cart will contain the following orders: \n%s", adminOrder.getUserName(), orderText);
         message.setText(mainText);
 
         HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(URL);
+        HttpPost httppost = new HttpPost(hashUtils.decrypt(URL));
 
         // Request parameters and other properties.
         httppost.setEntity(new StringEntity(new Gson().toJson(message)));

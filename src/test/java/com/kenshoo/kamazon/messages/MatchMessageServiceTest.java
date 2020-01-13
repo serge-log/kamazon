@@ -8,9 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.annotation.Resource;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +27,14 @@ public class MatchMessageServiceTest {
     }
 
     @Test
-    public void test() throws IOException {
+    public void test() throws Exception {
         List<Order> orders = new ArrayList<>();
         orders.add(new Order(1, "yoel.ganapol", 5, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
         orders.add(new Order(1, "stas.gorodetsky", 50, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
         orders.add(new Order(1, "serge.logunov", 52, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
         orders.add(new Order(1, "dana.cohen", 53, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
-        matchMessageService.sendMessage(orders);
+        Order adminOrder = new Order();
+        adminOrder.setUserName("admin");
+        matchMessageService.sendMessage(orders, adminOrder);
     }
 }

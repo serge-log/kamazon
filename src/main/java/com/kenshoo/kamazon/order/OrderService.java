@@ -25,7 +25,7 @@ public class OrderService {
     @Resource
     private OrderDao orderDao;
 
-    public Optional<Order> saveOrderAndFindMatch(Order order) throws IOException {
+    public Optional<Order> saveOrderAndFindMatch(Order order) throws Exception {
         order.setStatus(OrderStatus.WAITING);
         int isSuccessful = orderDao.saveOrder(order);
         if (isSuccessful > 0) {
@@ -33,10 +33,11 @@ public class OrderService {
             List<Order> resultMatch = OrderListUtil.sum_up(waitingOrders, MIN_RATE.intValue(), MAX_RATE.intValue());
             if (resultMatch != null && resultMatch.size() > 0) {
                 String groupId = UUID.randomUUID().toString();
-                setAdmin(resultMatch);
+                Order adminOrder = setAdmin(resultMatch);
+                orderDao.updateAdminById(adminOrder.getId()); //TODO: check if failed
                 int result = orderDao.updateStatusAndGroupIdByOrderIds(resultMatch.stream().map(Order::getId).collect(toList()), OrderStatus.MATCHED, groupId);
                 if (result > 0) {
-                    matchMessageService.sendMessage(resultMatch);
+                    matchMessageService.sendMessage(resultMatch,adminOrder);
                     return Optional.of(order);
                 } else {
                     logger.error("Could not update status for orders: " + resultMatch);
@@ -51,7 +52,6 @@ public class OrderService {
     }
 
     private Order setAdmin(List<Order> resultMatch) {
-
         Order adminOrder = resultMatch.get(0);
         for (Order order : resultMatch) {
             if (order.getPrice() > adminOrder.getPrice())

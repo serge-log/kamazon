@@ -43,4 +43,12 @@ public class OrderDao {
                 .where(field("id").in(orderIds))
                 .execute();
     }
+
+    public int updateAdminById(int orderId) {
+        return dslContext.update(table(TABLE_NAME))
+                .set(field("is_admin"), 1)
+                .where(field("id").eq(orderId))
+                .execute();
+    }
+
 }
