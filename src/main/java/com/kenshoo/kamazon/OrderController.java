@@ -1,6 +1,7 @@
 package com.kenshoo.kamazon;
 
 import com.kenshoo.kamazon.order.Order;
+import com.kenshoo.kamazon.order.OrderDto;
 import com.kenshoo.kamazon.order.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,15 @@ public class OrderController {
     private OrderService orderService;
 
     @ResponseBody
+    @RequestMapping(path = "/order", method = RequestMethod.GET)
+    public String updateEvent() {
+        return "DAS IS VORKING";
+    }
+
+    @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
     public String updateEvent(HttpServletRequest request,
-                           @RequestBody String url,
-                           @RequestBody int price,
-                           @RequestBody String userName,
-                           @RequestBody String slackId) {
-        return "DAS IS VORKING ${request.toString()} ${url} ${price} ${userName} ${slackId}";
+                              @RequestBody OrderDto orderDto){
+        return "DAS IS VORKING " + orderDto.toString();
     }
 }
