@@ -1,5 +1,6 @@
 package com.kenshoo.kamazon;
 
+import com.google.gson.Gson;
 import com.kenshoo.kamazon.messages.MatchMessageService;
 import com.kenshoo.kamazon.order.Order;
 import com.kenshoo.kamazon.order.OrderService;
@@ -25,10 +26,8 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
-    public String updateEvent(HttpServletRequest request) throws IOException {
-        String msg = request.getReader().lines().collect(Collectors.toList()).toString();
-        logger.info(msg);
-        return "DAS IS VORKING " + msg;
+    public String updateEvent(@RequestBody OrderRequest request){
+        return request.toString();
     }
 
 }
