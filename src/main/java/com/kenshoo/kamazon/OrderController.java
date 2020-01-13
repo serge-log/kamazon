@@ -1,5 +1,6 @@
 package com.kenshoo.kamazon;
 
+import com.kenshoo.kamazon.messages.MatchMessageService;
 import com.kenshoo.kamazon.order.Order;
 import com.kenshoo.kamazon.order.OrderService;
 import org.slf4j.Logger;
@@ -21,6 +22,9 @@ public class OrderController {
 
     @Resource
     private OrderService orderService;
+
+    @Resource
+    private MatchMessageService matchMessageService;
 
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
