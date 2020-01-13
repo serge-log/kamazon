@@ -17,18 +17,65 @@ public class Order {
     public String groupId;
     @Column(name = "is_admin")
     public boolean isAdmin;
+    @Column(name = "status")
+    public OrderStatus status;
 
     public Order() {
     }
 
-    public Order(int id, String userName, int price, String url, String slackId, String groupId, boolean admin) {
+    public Order(int id, String userName, int price, String url, String slackId, String groupId, boolean isAdmin, OrderStatus status) {
         this.id = id;
         this.userName = userName;
         this.price = price;
         this.url = url;
         this.slackId = slackId;
         this.groupId = groupId;
-        this.isAdmin = admin;
+        this.isAdmin = isAdmin;
+        this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getSlackId() {
+        return slackId;
+    }
+
+    public void setSlackId(String slackId) {
+        this.slackId = slackId;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public int getId() {

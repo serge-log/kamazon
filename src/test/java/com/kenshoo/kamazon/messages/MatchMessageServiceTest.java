@@ -1,6 +1,7 @@
 package com.kenshoo.kamazon.messages;
 
 import com.kenshoo.kamazon.order.Order;
+import com.kenshoo.kamazon.order.OrderStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +32,10 @@ public class MatchMessageServiceTest {
     @Test
     public void test() throws IOException {
         List<Order> orders = new ArrayList<>();
-        orders.add(new Order(1, "yoel.ganapol", 5, "http://www.test.com", "fdff", "gggfr", true));
-        orders.add(new Order(1, "stas.gorodetsky", 50, "http://www.test.com", "fdff", "gggfr", true));
-        orders.add(new Order(1, "serge.logunov", 52, "http://www.test.com", "fdff", "gggfr", true));
-        orders.add(new Order(1, "dana.cohen", 53, "http://www.test.com", "fdff", "gggfr", true));
+        orders.add(new Order(1, "yoel.ganapol", 5, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
+        orders.add(new Order(1, "stas.gorodetsky", 50, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
+        orders.add(new Order(1, "serge.logunov", 52, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
+        orders.add(new Order(1, "dana.cohen", 53, "http://www.test.com", "fdff", "gggfr", true, OrderStatus.WAITING));
         matchMessageService.sendMessage(orders);
     }
 }

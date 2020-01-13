@@ -25,8 +25,6 @@ public class MatchMessageService {
 
     public static String URL = "https://hooks.slack.com/services/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";
 
-
-
     public void sendMessage(List<Order> orders) throws IOException {
         Message message = new Message();
         String orderText = orders.stream().map(order -> String.format("<@%s> %s %s",order.userName,order.url,order.price)).collect(Collectors.joining("\n"));
@@ -43,10 +41,5 @@ public class MatchMessageService {
         HttpResponse response = httpclient.execute(httppost);
 
     }
-
-
-
-
-
 
 }

@@ -23,9 +23,6 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    @Resource
-    private MatchMessageService matchMessageService;
-
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
     public String updateEvent(HttpServletRequest request) throws IOException {
@@ -33,12 +30,5 @@ public class OrderController {
         logger.info(msg);
         return "DAS IS VORKING " + msg;
     }
-
-    @ResponseBody
-    @RequestMapping(path = "/order", method = RequestMethod.GET)
-    public List<Order> getAll(HttpServletRequest request) {
-        return orderService.getAllOrders();
-    }
-
 
 }
