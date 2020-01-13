@@ -25,21 +25,21 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
     public String updateEvent(HttpServletRequest request) {
-        new Thread(() -> {
-            try {
-                String userName = request.getParameter("user_name");
-                String text = request.getParameter("text");
-                String[] orderParams = text.split(" ");
-                Order order = new Order();
-                order.setUserName(userName);
-                order.setPrice(Integer.parseInt(orderParams[PRICE_INDEX]));
-                order.setUrl(orderParams[URL_INDEX]);
-                logger.info("Attempting saving of order: " + order);
-                orderService.saveOrderAndFindMatch(order);
-            } catch (Exception e) {
-                logger.error("Error while saving new order", e);
-            }
-        }).start();
+        try {
+            String userName = request.getParameter("user_name");
+            logger.info("request userName: " + userName);
+            String text = request.getParameter("text");
+            logger.info("request text: " + text);
+            String[] orderParams = text.split(" ");
+            Order order = new Order();
+            order.setUserName(userName);
+            order.setPrice(Integer.parseInt(orderParams[PRICE_INDEX]));
+            order.setUrl(orderParams[URL_INDEX]);
+            logger.info("Attempting saving of order: " + order);
+            orderService.saveOrderAndFindMatch(order);
+        } catch (Exception e) {
+            logger.error("Error while saving new order", e);
+        }
         return "ACCEPTED";
     }
 
