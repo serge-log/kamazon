@@ -20,7 +20,7 @@ public class OrderDao {
     public List<Order> getAllWaitingOrders() {
         return dslContext.select()
                 .from(table(TABLE_NAME))
-                .where(field("status").eq(OrderStatus.WAITING))
+                .where(field("status").eq(OrderStatus.WAITING.name()))
                 .fetchInto(Order.class);
     }
 
@@ -32,13 +32,13 @@ public class OrderDao {
                 .set(field("slack_id"), order.getSlackId())
                 .set(field("group_id"), order.getGroupId())
                 .set(field("is_admin"), order.getAdmin())
-                .set(field("status"), order.getStatus())
+                .set(field("status"), order.getStatus().name())
                 .execute();
     }
 
     public int updateStatusAndGroupIdByOrderIds(List<Integer> orderIds, OrderStatus orderStatus, String groupId) {
         return dslContext.update(table(TABLE_NAME))
-                .set(field("status"), orderStatus)
+                .set(field("status"), orderStatus.name())
                 .set(field("group_id"), groupId)
                 .where(field("id").in(orderIds))
                 .execute();

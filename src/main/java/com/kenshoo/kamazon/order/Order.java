@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 public class Order {
     @Column(name = "id")
-    public int id;
+    public Integer id;
     @Column(name = "user_name")
     public String userName;
     @Column(name = "price")
@@ -18,12 +18,12 @@ public class Order {
     @Column(name = "is_admin")
     public boolean isAdmin;
     @Column(name = "status")
-    public OrderStatus status;
+    public String status;
 
     public Order() {
     }
 
-    public Order(int id, String userName, int price, String url, String slackId, String groupId, boolean isAdmin, OrderStatus status) {
+    public Order(Integer id, String userName, int price, String url, String slackId, String groupId, boolean isAdmin, OrderStatus status) {
         this.id = id;
         this.userName = userName;
         this.price = price;
@@ -31,7 +31,7 @@ public class Order {
         this.slackId = slackId;
         this.groupId = groupId;
         this.isAdmin = isAdmin;
-        this.status = status;
+        this.status = status.name();
     }
 
     public String getUserName() {
@@ -71,18 +71,18 @@ public class Order {
     }
 
     public OrderStatus getStatus() {
-        return status;
+        return OrderStatus.valueOf(status);
     }
 
     public void setStatus(OrderStatus status) {
-        this.status = status;
+        this.status = status.name();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

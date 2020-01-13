@@ -31,20 +31,34 @@ public class OrderService {
         if (isSuccessful > 0) {
             List<Order> waitingOrders = orderDao.getAllWaitingOrders();
             List<Order> resultMatch = OrderListUtil.sum_up(waitingOrders, MIN_RATE.intValue(), MAX_RATE.intValue());
-            String groupId = UUID.randomUUID().toString();
-            int result = orderDao.updateStatusAndGroupIdByOrderIds(resultMatch.stream().map(Order::getId).collect(toList()), OrderStatus.MATCHED, groupId);
-            if (result > 0) {
-                matchMessageService.sendMessage(resultMatch);
-                return Optional.of(order);
-            } else {
-                logger.error("Could not update status for orders: " + resultMatch);
-                return Optional.empty();
+            if (resultMatch != null && resultMatch.size() > 0) {
+                String groupId = UUID.randomUUID().toString();
+                setAdmin(resultMatch);
+                int result = orderDao.updateStatusAndGroupIdByOrderIds(resultMatch.stream().map(Order::getId).collect(toList()), OrderStatus.MATCHED, groupId);
+                if (result > 0) {
+                    matchMessageService.sendMessage(resultMatch);
+                    return Optional.of(order);
+                } else {
+                    logger.error("Could not update status for orders: " + resultMatch);
+                    return Optional.empty();
+                }
             }
+            return Optional.empty();
         } else {
             logger.error("Could not save order: " + order);
             return Optional.empty();
         }
     }
 
+    private Order setAdmin(List<Order> resultMatch) {
+
+        Order adminOrder = resultMatch.get(0);
+        for (Order order : resultMatch) {
+            if (order.getPrice() > adminOrder.getPrice())
+                adminOrder = order;
+        }
+        adminOrder.setAdmin(Boolean.TRUE);
+        return adminOrder;
+    }
 
 }

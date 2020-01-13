@@ -27,8 +27,8 @@ public class MatchMessageService {
 
     public void sendMessage(List<Order> orders) throws IOException {
         Message message = new Message();
-        String orderText = orders.stream().map(order -> String.format("<@%s> %s %s",order.userName,order.url,order.price)).collect(Collectors.joining("\n"));
-        String mainText = String.format("Congratulation!!! :amazon: \n We have a match :package: :package: :package:   \n %s",orderText);
+        String orderText = orders.stream().map(order -> String.format("<@%s> %s %s", order.userName, order.url, order.price)).collect(Collectors.joining("\n"));
+        String mainText = String.format("Congratulation!!! :amazon: \n We have a match :package: :package: :package:   \n %s", orderText);
         message.setText(mainText);
 
         HttpClient httpclient = HttpClients.createDefault();

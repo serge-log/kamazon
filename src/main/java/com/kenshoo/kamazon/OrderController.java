@@ -1,7 +1,5 @@
 package com.kenshoo.kamazon;
 
-import com.google.gson.Gson;
-import com.kenshoo.kamazon.messages.MatchMessageService;
 import com.kenshoo.kamazon.order.Order;
 import com.kenshoo.kamazon.order.OrderService;
 import org.slf4j.Logger;
@@ -12,14 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api")
 public class OrderController {
 
+    public static final int PRICE_INDEX = 0;
+    public static final int URL_INDEX = 1;
     private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @Resource
@@ -27,8 +24,23 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
-    public String updateEvent(HttpServletRequest request) throws IOException {
-        return request.getParameter("user_name") + request.getParameter("text");
+    public String updateEvent(HttpServletRequest request) {
+        new Thread(() -> {
+            try {
+                String userName = request.getParameter("user_name");
+                String text = request.getParameter("text");
+                String[] orderParams = text.split(" ");
+                Order order = new Order();
+                order.setUserName(userName);
+                order.setPrice(Integer.parseInt(orderParams[PRICE_INDEX]));
+                order.setUrl(orderParams[URL_INDEX]);
+                logger.info("Attempting saving of order: " + order);
+                orderService.saveOrderAndFindMatch(order);
+            } catch (Exception e) {
+                logger.error("Error while saving new order", e);
+            }
+        }).start();
+        return "ACCEPTED";
     }
 
 }
