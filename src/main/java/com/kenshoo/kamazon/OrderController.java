@@ -1,18 +1,17 @@
 package com.kenshoo.kamazon;
 
+import com.kenshoo.kamazon.messages.MatchMessageService;
 import com.kenshoo.kamazon.order.Order;
-import com.kenshoo.kamazon.order.OrderDto;
 import com.kenshoo.kamazon.order.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,6 +23,9 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
+    @Resource
+    private MatchMessageService matchMessageService;
+
     @ResponseBody
     @RequestMapping(path = "/order", method = RequestMethod.POST)
     public String updateEvent(HttpServletRequest request) throws IOException {
@@ -31,5 +33,12 @@ public class OrderController {
         logger.info(msg);
         return "DAS IS VORKING " + msg;
     }
+
+    @ResponseBody
+    @RequestMapping(path = "/order", method = RequestMethod.GET)
+    public List<Order> getAll(HttpServletRequest request) {
+        return orderService.getAllOrders();
+    }
+
 
 }
