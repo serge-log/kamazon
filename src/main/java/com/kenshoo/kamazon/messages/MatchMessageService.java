@@ -2,6 +2,7 @@ package com.kenshoo.kamazon.messages;
 
 import com.google.gson.Gson;
 import com.kenshoo.kamazon.order.Order;
+import com.kenshoo.kamazon.order.OrderService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -9,6 +10,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
@@ -23,7 +27,8 @@ import java.util.stream.Collectors;
 @Service
 public class MatchMessageService {
 
-    public static String URL = "https://hooks.slack.com/services/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";
+    private Logger logger = LoggerFactory.getLogger(MatchMessageService.class);
+    public static String URL = "https://hooks.slack.com/services/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";
 
     public void sendMessage(List<Order> orders) throws IOException {
         Message message = new Message();
@@ -39,6 +44,11 @@ public class MatchMessageService {
 
         //Execute and get the response.
         HttpResponse response = httpclient.execute(httppost);
+        if (HttpStatus.OK.value() != response.getStatusLine().getStatusCode()) {
+            logger.error("Error while sending message to slack: code: "
+                    + response.getStatusLine().getStatusCode() + " reason: " + response.getStatusLine().getReasonPhrase());
+
+        }
 
     }
 
