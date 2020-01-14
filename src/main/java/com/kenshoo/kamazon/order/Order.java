@@ -8,7 +8,7 @@ public class Order {
     @Column(name = "user_name")
     public String userName;
     @Column(name = "price")
-    public int price;
+    public double price;
     @Column(name = "url")
     public String url;
     @Column(name = "slack_id")
@@ -23,7 +23,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer id, String userName, int price, String url, String slackId, String groupId, boolean isAdmin, OrderStatus status) {
+    public Order(Integer id, String userName, double price, String url, String slackId, String groupId, boolean isAdmin, OrderStatus status) {
         this.id = id;
         this.userName = userName;
         this.price = price;
@@ -42,11 +42,11 @@ public class Order {
         this.userName = userName;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

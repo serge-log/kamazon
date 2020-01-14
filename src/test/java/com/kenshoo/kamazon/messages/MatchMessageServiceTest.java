@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * Created by stasg on 1/13/20
  */
-
 @RunWith(MockitoJUnitRunner.class)
 public class MatchMessageServiceTest {
 
