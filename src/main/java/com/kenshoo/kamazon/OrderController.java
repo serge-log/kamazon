@@ -33,12 +33,13 @@ public class OrderController {
             String[] orderParams = text.split(" ");
             Order order = new Order();
             order.setUserName(userName);
-            order.setPrice(Integer.parseInt(orderParams[PRICE_INDEX]));
+            order.setPrice(Double.parseDouble(orderParams[PRICE_INDEX]));
             order.setUrl(orderParams[URL_INDEX]);
             logger.info("Attempting saving of order: " + order);
             orderService.saveOrderAndFindMatch(order);
         } catch (Exception e) {
             logger.error("Error while saving new order", e);
+            return "Service is currently unavailable, please contact management team";
         }
         return "ACCEPTED";
     }

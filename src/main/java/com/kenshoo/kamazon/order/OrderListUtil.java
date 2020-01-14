@@ -1,21 +1,27 @@
 package com.kenshoo.kamazon.order;
 
+import com.kenshoo.kamazon.OrderController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 import java.util.function.BinaryOperator;
 
 public class OrderListUtil {
 
-    public static List<Order> sum_up(List<Order> numbers, int minTarget, int maxTarget) {
+    private static Logger logger = LoggerFactory.getLogger(OrderListUtil.class);
+
+    public static List<Order> sum_up(List<Order> numbers, double minTarget, double maxTarget) {
         return sum_up_recursive(numbers, minTarget, maxTarget, new ArrayList<>());
     }
 
-    private static List<Order> sum_up_recursive(List<Order> numbers, int target, int maxTarget, List<Order> partial) {
-        int s = 0;
+    private static List<Order> sum_up_recursive(List<Order> numbers, double target, double maxTarget, List<Order> partial) {
+        double s = 0;
         for (Order x : partial) {
             s += x.getPrice();
         }
         if (s >= target && s <= maxTarget) {
-            System.out.println("sum(" + Arrays.toString(partial.stream().map(Order::getPrice).toArray()) + ")= between " + target + " and = " + maxTarget);
+            logger.info("sum(" + Arrays.toString(partial.stream().map(Order::getPrice).toArray()) + ")= between " + target + " and = " + maxTarget);
             return partial;
         }
         if (s > maxTarget) {
